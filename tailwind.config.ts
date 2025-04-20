@@ -52,6 +52,21 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				purple: {
+					light: '#E5DEFF',
+					DEFAULT: '#8B5CF6',
+					dark: '#6D28D9'
+				},
+				teal: {
+					light: '#CCFBF1',
+					DEFAULT: '#14B8A6',
+					dark: '#0F766E'
+				},
+				yellow: {
+					light: '#FEF9C3',
+					DEFAULT: '#FACC15',
+					dark: '#CA8A04'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -67,6 +82,9 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			fontFamily: {
+				'rounded': ['Nunito', 'system-ui', 'sans-serif'],
 			},
 			keyframes: {
 				'accordion-down': {
@@ -84,11 +102,42 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					"0%": {
+						opacity: "0",
+						transform: "translateY(10px)"
+					},
+					"100%": {
+						opacity: "1",
+						transform: "translateY(0)"
+					}
+				},
+				'float': {
+					"0%, 100%": {
+						transform: "translateY(0)"
+					},
+					"50%": {
+						transform: "translateY(-10px)"
+					}
+				},
+				'bounce-subtle': {
+					"0%, 100%": {
+						transform: "translateY(0)",
+						animationTimingFunction: "cubic-bezier(0.8, 0, 1, 1)"
+					},
+					"50%": {
+						transform: "translateY(-15px)",
+						animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)"
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.5s ease-out',
+				'float': 'float 6s ease-in-out infinite',
+				'bounce-subtle': 'bounce-subtle 3s infinite'
 			}
 		}
 	},
