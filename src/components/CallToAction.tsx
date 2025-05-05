@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Speech } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function CallToAction() {
   return (
@@ -19,12 +20,16 @@ export function CallToAction() {
           accessible storytelling experiences for children with hearing impairments.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full text-lg px-8 font-rounded">
-            Get Started Free
-          </Button>
-          <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 rounded-full text-lg px-8 font-rounded">
-            Request a Demo
-          </Button>
+          <Link to="/features">
+            <Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full text-lg px-8 font-rounded">
+              Get Started Free
+            </Button>
+          </Link>
+          <Link to="/benefits">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 rounded-full text-lg px-8 font-rounded">
+              Request a Demo
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

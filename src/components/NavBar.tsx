@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { MicOff, Captions, Headphones, Speech } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function NavBar() {
   return (
@@ -9,20 +10,28 @@ export function NavBar() {
         <div className="bg-primary rounded-full p-2">
           <Speech className="h-6 w-6 text-white" />
         </div>
-        <a href="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+        <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
           StorySign
-        </a>
+        </Link>
       </div>
       
       <div className="hidden md:flex items-center gap-6 font-rounded">
-        <a href="#features" className="text-foreground/90 hover:text-primary transition-colors">Features</a>
-        <a href="#benefits" className="text-foreground/90 hover:text-primary transition-colors">Benefits</a>
-        <a href="#vision" className="text-foreground/90 hover:text-primary transition-colors">Our Vision</a>
+        <Link to="/features" className="text-foreground/90 hover:text-primary transition-colors">
+          Features
+        </Link>
+        <Link to="/benefits" className="text-foreground/90 hover:text-primary transition-colors">
+          Benefits
+        </Link>
+        <Link to="/vision" className="text-foreground/90 hover:text-primary transition-colors">
+          Our Vision
+        </Link>
       </div>
       
-      <Button className="bg-primary hover:bg-primary/90 rounded-full font-rounded">
-        Try StorySign
-      </Button>
+      <Link to="/features">
+        <Button className="bg-primary hover:bg-primary/90 rounded-full font-rounded">
+          Try StorySign
+        </Button>
+      </Link>
     </nav>
   );
 }

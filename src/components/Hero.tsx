@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export function Hero() {
   return (
@@ -13,12 +14,16 @@ export function Hero() {
             An innovative storytelling platform designed specifically for children with hearing impairments, using advanced technology to bridge communication gaps.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 rounded-full text-lg px-8 font-rounded">
-              Get Started
-            </Button>
-            <Button size="lg" variant="outline" className="rounded-full text-lg px-8 border-primary text-primary hover:bg-primary/10 font-rounded">
-              Learn More
-            </Button>
+            <Link to="/features">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 rounded-full text-lg px-8 font-rounded">
+                Get Started
+              </Button>
+            </Link>
+            <Link to="/vision">
+              <Button size="lg" variant="outline" className="rounded-full text-lg px-8 border-primary text-primary hover:bg-primary/10 font-rounded">
+                Learn More
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="flex-1 relative">
