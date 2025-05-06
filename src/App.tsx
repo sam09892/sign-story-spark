@@ -11,6 +11,8 @@ import Benefits from "./pages/Benefits";
 import Vision from "./pages/Vision";
 import FeatureDetails from "./pages/FeatureDetails";
 import SpeechToTextFeature from "./pages/SpeechToTextFeature";
+import SignLanguageAvatarsFeature from "./pages/SignLanguageAvatarsFeature";
+import EmotionRecognitionFeature from "./pages/EmotionRecognitionFeature";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
           <Route path="/features" element={<Features />} />
           <Route path="/features/:featureId" element={<FeatureDetails />} />
           <Route path="/speech-to-text" element={<SpeechToTextFeature />} />
+          <Route path="/sign-language-avatars" element={<SignLanguageAvatarsFeature />} />
+          <Route path="/emotion-recognition" element={<EmotionRecognitionFeature />} />
           <Route path="/benefits" element={<Benefits />} />
           <Route path="/vision" element={<Vision />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
