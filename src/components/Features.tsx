@@ -17,21 +17,43 @@ export function Features() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuresData.map((feature) => (
-            <Link to={`/features/${feature.id}`} key={feature.id}>
-              <Card className="border border-border/50 shadow-sm hover:shadow-md transition-shadow overflow-hidden group h-full">
-                <CardHeader className="pb-4">
-                  <div className={`w-12 h-12 rounded-full ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                    <feature.icon className="h-6 w-6" />
-                  </div>
-                  <CardTitle className="font-rounded">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-foreground/80 text-base font-rounded">{feature.description}</CardDescription>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+          {featuresData.map((feature) => {
+            // Special case for speech-to-text
+            if (feature.id === "speech-to-text") {
+              return (
+                <Link to="/speech-to-text" key={feature.id}>
+                  <Card className="border border-border/50 shadow-sm hover:shadow-md transition-shadow overflow-hidden group h-full">
+                    <CardHeader className="pb-4">
+                      <div className={`w-12 h-12 rounded-full ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                        <feature.icon className="h-6 w-6" />
+                      </div>
+                      <CardTitle className="font-rounded">{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-foreground/80 text-base font-rounded">{feature.description}</CardDescription>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            }
+
+            // Default for other features
+            return (
+              <Link to={`/features/${feature.id}`} key={feature.id}>
+                <Card className="border border-border/50 shadow-sm hover:shadow-md transition-shadow overflow-hidden group h-full">
+                  <CardHeader className="pb-4">
+                    <div className={`w-12 h-12 rounded-full ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                      <feature.icon className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="font-rounded">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-foreground/80 text-base font-rounded">{feature.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>
