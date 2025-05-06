@@ -13,6 +13,7 @@ import FeatureDetails from "./pages/FeatureDetails";
 import SpeechToTextFeature from "./pages/SpeechToTextFeature";
 import SignLanguageAvatarsFeature from "./pages/SignLanguageAvatarsFeature";
 import EmotionRecognitionFeature from "./pages/EmotionRecognitionFeature";
+import EmotionStoryLibrary from "./pages/EmotionStoryLibrary";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/speech-to-text" element={<SpeechToTextFeature />} />
           <Route path="/sign-language-avatars" element={<SignLanguageAvatarsFeature />} />
           <Route path="/emotion-recognition" element={<EmotionRecognitionFeature />} />
+          <Route path="/emotion-story-library" element={<EmotionStoryLibrary />} />
           <Route path="/benefits" element={<Benefits />} />
           <Route path="/vision" element={<Vision />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

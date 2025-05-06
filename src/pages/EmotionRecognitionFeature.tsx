@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,17 +9,48 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Smile, Frown, BookOpen, Book, Save, Plus, Edit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
+
+interface Story {
+  id: number;
+  title: string;
+  content: string;
+  emotions: string[];
+}
 
 const EmotionRecognitionFeature = () => {
   const [storyTitle, setStoryTitle] = useState("");
   const [storyContent, setStoryContent] = useState("");
   const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]);
-  const [savedStories, setSavedStories] = useState([
-    { id: 1, title: "The Happy Dragon", content: "Once upon a time, there was a happy dragon who loved to fly...", emotions: ["happy", "excited", "curious"] },
-    { id: 2, title: "Lost in the Forest", content: "The little rabbit was scared and lost in the dark forest...", emotions: ["scared", "worried", "relieved"] },
-  ]);
+  const [savedStories, setSavedStories] = useState<Story[]>([]);
   
   const { toast } = useToast();
+
+  // Load stories from localStorage on component mount
+  useEffect(() => {
+    const storedStories = localStorage.getItem("emotionStories");
+    if (storedStories) {
+      setSavedStories(JSON.parse(storedStories));
+    } else {
+      // Default stories if none found
+      const defaultStories = [
+        { 
+          id: 1, 
+          title: "The Happy Dragon", 
+          content: "Once upon a time, there was a happy dragon who loved to fly...", 
+          emotions: ["happy", "excited", "curious"] 
+        },
+        { 
+          id: 2, 
+          title: "Lost in the Forest", 
+          content: "The little rabbit was scared and lost in the dark forest...", 
+          emotions: ["scared", "worried", "relieved"] 
+        },
+      ];
+      setSavedStories(defaultStories);
+      localStorage.setItem("emotionStories", JSON.stringify(defaultStories));
+    }
+  }, []);
 
   const emotions = [
     { name: "happy", icon: Smile, color: "bg-yellow-light text-yellow-dark" },
@@ -50,14 +81,23 @@ const EmotionRecognitionFeature = () => {
       return;
     }
 
+    // Create a new ID (max ID + 1)
+    const newId = savedStories.length > 0 
+      ? Math.max(...savedStories.map(s => s.id)) + 1 
+      : 1;
+
     const newStory = {
-      id: savedStories.length + 1,
+      id: newId,
       title: storyTitle,
       content: storyContent,
       emotions: selectedEmotions
     };
 
-    setSavedStories([...savedStories, newStory]);
+    const updatedStories = [...savedStories, newStory];
+    setSavedStories(updatedStories);
+    
+    // Save to localStorage
+    localStorage.setItem("emotionStories", JSON.stringify(updatedStories));
     
     toast({
       title: "Story saved successfully",
@@ -131,17 +171,33 @@ const EmotionRecognitionFeature = () => {
     <div className="min-h-screen bg-background font-rounded">
       <NavBar />
       <div className="pt-10 pb-6 px-6 md:px-10 max-w-7xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 font-rounded">
-          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Emotion Recognition</span>
-        </h1>
-        <p className="text-lg text-center text-muted-foreground mb-10 max-w-3xl mx-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-center font-rounded">
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Emotion Recognition</span>
+          </h1>
+          <Link to="/emotion-story-library">
+            <Button variant="outline" className="hidden md:flex">
+              <BookOpen className="mr-2" /> View Story Library
+            </Button>
+          </Link>
+        </div>
+        
+        <p className="text-lg text-center text-muted-foreground mb-6 max-w-3xl mx-auto">
           Advanced AI recognizes emotional cues in stories and represents them visually through our expressive avatars.
         </p>
+
+        <div className="md:hidden mb-6">
+          <Link to="/emotion-story-library">
+            <Button variant="outline" className="w-full">
+              <BookOpen className="mr-2" /> View Story Library
+            </Button>
+          </Link>
+        </div>
 
         <Tabs defaultValue="create" className="w-full">
           <TabsList className="mb-8 mx-auto flex justify-center">
             <TabsTrigger value="create">Create Story</TabsTrigger>
-            <TabsTrigger value="library">Story Library</TabsTrigger>
+            <TabsTrigger value="library">Recent Stories</TabsTrigger>
           </TabsList>
           
           <TabsContent value="create">
@@ -236,40 +292,50 @@ const EmotionRecognitionFeature = () => {
               </Card>
               
               {/* Saved stories */}
-              {savedStories.map((story) => (
-                <Card key={story.id} className="hover:shadow-md transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="flex items-center gap-2">
-                        <BookOpen className="h-5 w-5 text-purple-DEFAULT" />
-                        <h3 className="font-medium text-lg">{story.title}</h3>
+              {savedStories.slice(-5).map((story) => (
+                <Link to={`/emotion-story-library`} key={story.id}>
+                  <Card className="hover:shadow-md transition-shadow h-full">
+                    <CardContent className="p-6">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex items-center gap-2">
+                          <BookOpen className="h-5 w-5 text-purple-DEFAULT" />
+                          <h3 className="font-medium text-lg">{story.title}</h3>
+                        </div>
+                        <Button size="icon" variant="ghost">
+                          <Edit className="h-4 w-4" />
+                        </Button>
                       </div>
-                      <Button size="icon" variant="ghost">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                      {story.content}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {story.emotions.map((emotion) => {
-                        const emotionData = emotions.find(e => e.name === emotion);
-                        return (
-                          <div 
-                            key={emotion} 
-                            className={`${emotionData?.color || "bg-gray-100"} px-2 py-1 rounded-full text-xs flex items-center`}
-                          >
-                            {emotionData?.icon && <emotionData.icon className="h-3 w-3 mr-1" />}
-                            {emotion}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </CardContent>
-                </Card>
+                      
+                      <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                        {story.content}
+                      </p>
+                      
+                      <div className="flex flex-wrap gap-2">
+                        {story.emotions.map((emotion) => {
+                          const emotionData = emotions.find(e => e.name === emotion);
+                          return (
+                            <div 
+                              key={emotion} 
+                              className={`${emotionData?.color || "bg-gray-100"} px-2 py-1 rounded-full text-xs flex items-center`}
+                            >
+                              {emotionData?.icon && <emotionData.icon className="h-3 w-3 mr-1" />}
+                              {emotion}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
+
+              {savedStories.length > 5 && (
+                <Link to="/emotion-story-library" className="col-span-full">
+                  <Button variant="outline" className="w-full">
+                    <BookOpen className="mr-2" /> View All Stories
+                  </Button>
+                </Link>
+              )}
             </div>
           </TabsContent>
         </Tabs>
